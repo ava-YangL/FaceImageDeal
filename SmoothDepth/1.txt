@@ -1,0 +1,15 @@
+%x是需要滤波的图像,n是模板大小(即n×n)
+ 2 function d=averfilter(x,n)   
+ 3 a(1:n,1:n)=1;   %a即n×n模板,元素全是1
+ 4 [height, width]=size(x);   %输入图像是hightxwidth的,且hight>n,width>n
+ 5 x1=double(x);
+ 6 x2=x1;
+ 7 for i=1:height-n+1
+ 8     for j=1:width-n+1
+ 9         c=x1(i:i+(n-1),j:j+(n-1)).*a; %取出x1中从(i,j)开始的n行n列元素与模板相乘
+10         s=sum(sum(c));                 %求c矩阵中各元素之和
+11         x2(i+(n-1)/2,j+(n-1)/2)=s/(n*n); %将与模板运算后的各元素的均值赋给模板中心位置的元素
+12     end
+13 end
+14 %未被赋值的元素取原值
+15 d=uint8(x2);

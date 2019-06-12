@@ -1,0 +1,22 @@
+>> load('C:\Users\scmjw2\My Projects\FaceCaricaturization\data\SFSNormal');
+>> load('C:\Users\scmjw2\My Projects\FaceCaricaturization\data\ZhangDepth');
+>> [nx,ny,nz]=surfnorm(depth);
+>> n(:,:,1)=nx;
+>> n(:,:,2)=ny;
+>> n(:,:,3)=nz;
+%%% swap the first and second dimensions of normals from SFSNet
+>> nn(:,:,1)=normal(:,:,2);
+>> nn(:,:,2)=normal(:,:,1);
+>> nn(:,:,3)=normal(:,:,3);
+%%% you can change the slant parameter here, currently it's 4, usually try values between 4 and 30, it controls the depth discontinuity.
+>> [ Z ] = Integration_FC( n, ones(128,128), 4, 'F', 0, 0 );
+%%% display the surface
+>> showsurf(Z);
+>> [ ZZ ] = Integration_FC( nn, ones(128,128), 4, 'F', 0, 0 );
+>> showsurf(ZZ);
+>> [ ZZ ] = Integration_FC( nn, ones(128,128), 30, 'F', 0, 0 );
+>> showsurf(ZZ);
+%%% display the original depth from Zhang
+>> showsurf(depth);
+%%% display the integrated depth * 3 from SFSNet
+>> showsurf(ZZ*3);
